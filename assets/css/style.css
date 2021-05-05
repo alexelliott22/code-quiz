@@ -30,8 +30,12 @@ header {
     width: 70%;
 }
 
-.main-screen button {
+.main-screen .btn {
     margin: auto;
     color: white;
     background-color: blueviolet;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
+
