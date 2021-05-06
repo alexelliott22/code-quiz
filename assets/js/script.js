@@ -1,13 +1,17 @@
 var score = 0;
 var currentQuestion = 0;
+var timeLeft = 75;
 var titleScreen = document.querySelector('#begin');
 var startQuizBtn = document.querySelector('#start-quiz');
+var questionContainer = document.querySelector('.main-screen');
 var screen = document.querySelector('.body');
 var timer = document.querySelector('.timer');
+var goBackBtn = document.querySelector('#go-back')
+
 
 //start timer with start game
 var startTimer = function countdown() {
-    timeLeft = 75;
+
 
     var timeInterval = setInterval(function() {
         if(timeLeft >= 1) {
@@ -21,16 +25,20 @@ var startTimer = function countdown() {
     }, 1000);
 }
 
+var cleanScreen = function() {
+
+    titleScreen.parentNode.removeChild(titleScreen);
+}
+
+
 // start quiz
 var startQuiz = function(event) {
 
-    //clean screen
-    titleScreen.parentNode.removeChild(titleScreen);
-
-    
-    createQuestionEl();
+    cleanScreen();
 
     startTimer();
+
+    createQuestionEl();
 }
 
 
@@ -108,49 +116,61 @@ var createQuestionEl = function() {
     //checkAnswer();
 }
 
+
 //check answer submitted
 var checkAnswer = function() {
     
-    if(i>0) {
-        var showAnswer = document.createElement('h2');
-        showAnswer.textContent = 'Correct';
-        showAnswer.className = 'show-answer';
-        screen.appendChild(showAnswer);
+//    console.log('blue whales');
+
+    // //check if correct button was clicked and add a point
+    // if() {
+    //     var showResult = document.createElement('h2');
+    //     showResult.textContent = 'Correct';
+    //     showResult.className = 'show-result';
+    //     screen.appendChild(showResult);
         
-        //add 1 to score
-        score++;
-    }
+    //     //add 1 to score
+    //     score++;
+    // }
 
-    else {
-        var showAnswer = document.createElement('h2');
-        showAnswer.textContent = 'Incorrect';
-        showAnswer.className = 'show-answer';
-        screen.appendChild(showAnswer);
+    // //if wrong anser was clicked subtract 10 seconds
+    // else {
+    //     var showResult = document.createElement('h2');
+    //     showResult.textContent = 'Incorrect';
+    //     showResult.className = 'show-result';
+    //     screen.appendChild(showResult);
 
-        // subtract 10 seccounds from timer
-        timeLeft - 10;
-    }
+    //     // subtract 10 seccounds from timer
+    //     timeLeft - 10;
+    // }
 }
 
 
+//game ends with answering all questions or timer running out
+var endgame = function() {
 
+    //show score
 
+        // input initials for scoreboard
 
-//store score in scoreboard
-var scoreboard = function() {
-    
+        //submit score
+    saveScore();
 }
 
+var saveScore = function() {
     
-
-//game ends with answering all questions or timer runs out
-
-// input initials for scoreboard
-
-//show the scoreboard 
-    //store the scoreboard if they play again
+    //store the scoreboard in local storage if they play again
+    localStorage.setItem('highscore', score);
+}
 
 
+var goBack = function() {
+    score = 0;
+    timeLeft = 75;
+    currentQuestion = 0;
+
+    console.log('blue whales!');
+}
 
 startQuizBtn.addEventListener('click', startQuiz);
-
+goBackBtn.addEventListener('click', goBack);

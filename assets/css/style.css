@@ -30,12 +30,26 @@ header {
     width: 70%;
 }
 
-.main-screen .btn {
+.btn {
     margin: auto;
     color: white;
     background-color: blueviolet;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
+}
+
+.highscore-btns {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.highscore-table {
+    margin: auto;
+    text-align: center;
+    padding-bottom: 60px;
 }
 
