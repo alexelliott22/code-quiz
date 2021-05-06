@@ -1,12 +1,12 @@
 var score = 0;
 var currentQuestion = 0;
 var timeLeft = 75;
-var titleScreen = document.querySelector('#begin');
 var startQuizBtn = document.querySelector('#start-quiz');
+var parent = document.querySelector('.body');
 var questionContainer = document.querySelector('.main-screen');
 var screen = document.querySelector('.body');
 var timer = document.querySelector('.timer');
-var goBackBtn = document.querySelector('#go-back')
+var goBackBtn = document.getElementById('go-back');
 
 
 //start timer with start game
@@ -27,18 +27,17 @@ var startTimer = function countdown() {
 
 var cleanScreen = function() {
 
-    titleScreen.parentNode.removeChild(titleScreen);
+    questionContainer.parentNode.removeChild(questionContainer);
+
+    createQuestionEl();
 }
 
 
 // start quiz
-var startQuiz = function(event) {
-
-    cleanScreen();
+var startQuiz = function() {
 
     startTimer();
-
-    createQuestionEl();
+    cleanScreen();
 }
 
 
@@ -103,46 +102,48 @@ var createQuestionEl = function() {
 
     //create question answers
     for (i = 0; i < questions[currentQuestion].choices.length; i++) {
-        var questionAnswers = document.createElement('button');
-        questionAnswers.textContent = questions[currentQuestion].choices[i];
-        questionAnswers.className = 'btn';
-        questionAnswers.setAttribute('button-id', i);
-        questionEl.appendChild(questionAnswers);
+        var questionAnswer = document.createElement('button');
+        questionAnswer.textContent = questions[currentQuestion].choices[i];
+        questionAnswer.className = 'btn ' + 'q' + i;
+        questionEl.appendChild(questionAnswer);
+        questionAnswer.addEventListener('click', function() {checkAnswer(i)});
+    }
+
+    if(currentQuestion > questions.length || timeLeft < 1) {
+        endgame();
     }
 
     //change which question we are on
     currentQuestion++;
-
-    //checkAnswer();
 }
 
 
 //check answer submitted
-var checkAnswer = function() {
-    
-//    console.log('blue whales');
+var checkAnswer = function(id) {
 
-    // //check if correct button was clicked and add a point
-    // if() {
-    //     var showResult = document.createElement('h2');
-    //     showResult.textContent = 'Correct';
-    //     showResult.className = 'show-result';
-    //     screen.appendChild(showResult);
+    //check if correct button was clicked and add a point
+    if(id === questions[currentQuestion].answer) {
+        var showResult = document.createElement('h2');
+        showResult.textContent = 'Correct';
+        showResult.className = 'show-result';
+        screen.appendChild(showResult);
         
-    //     //add 1 to score
-    //     score++;
-    // }
+        //add 1 to score
+        score++;
+    }
 
-    // //if wrong anser was clicked subtract 10 seconds
-    // else {
-    //     var showResult = document.createElement('h2');
-    //     showResult.textContent = 'Incorrect';
-    //     showResult.className = 'show-result';
-    //     screen.appendChild(showResult);
+    //if wrong anser was clicked subtract 10 seconds
+    else {
+        var showResult = document.createElement('h2');
+        showResult.textContent = 'Incorrect';
+        showResult.className = 'show-result';
+        screen.appendChild(showResult);
 
-    //     // subtract 10 seccounds from timer
-    //     timeLeft - 10;
-    // }
+        // subtract 10 seccounds from timer
+        timeLeft - 10;
+    }
+
+    cleanScreen();
 }
 
 
@@ -163,7 +164,6 @@ var saveScore = function() {
     localStorage.setItem('highscore', score);
 }
 
-
 var goBack = function() {
     score = 0;
     timeLeft = 75;
@@ -172,5 +172,12 @@ var goBack = function() {
     console.log('blue whales!');
 }
 
+
 startQuizBtn.addEventListener('click', startQuiz);
-goBackBtn.addEventListener('click', goBack);
+
+
+
+
+//goBackBtn.addEventListener('click', goBack);
+
+
