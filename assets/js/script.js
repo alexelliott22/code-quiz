@@ -3,8 +3,23 @@ var currentQuestion = 0;
 var titleScreen = document.querySelector('#begin');
 var startQuizBtn = document.querySelector('#start-quiz');
 var screen = document.querySelector('.body');
+var timer = document.querySelector('.timer');
 
 //start timer with start game
+var startTimer = function countdown() {
+    timeLeft = 75;
+
+    var timeInterval = setInterval(function() {
+        if(timeLeft >= 1) {
+            timer.textContent = 'Time: ' + timeLeft;
+            timeLeft--;
+        }
+        else {
+            timer.textContent = 0;
+            clearInterval(timeInterval);
+        }
+    }, 1000);
+}
 
 // start quiz
 var startQuiz = function(event) {
@@ -14,6 +29,8 @@ var startQuiz = function(event) {
 
     
     createQuestionEl();
+
+    startTimer();
 }
 
 
@@ -64,6 +81,7 @@ var questions = [
 
 //create question element
 var createQuestionEl = function() {
+    
     //create question element
     var questionEl = document.createElement('section');
     questionEl.className = 'main-screen';
@@ -87,13 +105,13 @@ var createQuestionEl = function() {
     //change which question we are on
     currentQuestion++;
 
-    checkAnswer();
+    //checkAnswer();
 }
 
 //check answer submitted
 var checkAnswer = function() {
     
-    if() {
+    if(i>0) {
         var showAnswer = document.createElement('h2');
         showAnswer.textContent = 'Correct';
         showAnswer.className = 'show-answer';
@@ -110,6 +128,7 @@ var checkAnswer = function() {
         screen.appendChild(showAnswer);
 
         // subtract 10 seccounds from timer
+        timeLeft - 10;
     }
 }
 
@@ -117,8 +136,11 @@ var checkAnswer = function() {
 
 
 
-//if question is right add to the scoreboard
-    //if question is wrong subtract 10 sec from the timer
+//store score in scoreboard
+var scoreboard = function() {
+    
+}
+
     
 
 //game ends with answering all questions or timer runs out
