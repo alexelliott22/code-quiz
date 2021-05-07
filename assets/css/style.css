@@ -53,3 +53,8 @@ header {
     padding-bottom: 60px;
 }
 
+.main-screen h2 {
+    margin: auto;
+    font-weight: normal;
+}
+

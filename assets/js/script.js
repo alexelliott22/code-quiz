@@ -1,11 +1,11 @@
 var score = 0;
-var currentQuestion = -1;
+var currentQuestion = 0;
 var timeLeft = 75;
 var startQuizBtn = document.querySelector('#start-quiz');
 var parent = document.querySelector('.body');
 var timer = document.querySelector('.timer');
-var goBackBtn = document.getElementById('go-back');
-
+var goBackBtn = document.querySelector('#go-back');
+var scoreboard = document.querySelector('.table');
 
 //start timer with start game
 var startTimer = function countdown() {
@@ -19,7 +19,7 @@ var startTimer = function countdown() {
         else {
             timer.textContent = 0;
             clearInterval(timeInterval);
-            endgame();
+            finalScoreScreen();
         }
     }, 1000);
 }
@@ -86,10 +86,7 @@ var questions = [
 
 
 //create question element
-var createQuestionEl = function() {
-    
-    //change which question we are on
-    currentQuestion++;
+var createQuestionEl = function() {    
 
     //create question element
     questionEl = document.createElement('section');
@@ -118,8 +115,6 @@ var createQuestionEl = function() {
 //check answer submitted
 var checkAnswer = function(e) {
 
-    // console.log(e.target.id);
-    // console.log(questions[currentQuestion].answer);
     //check if correct button was clicked and add a point
     if( e.target.id == questions[currentQuestion].answer) {
         var showResult = document.createElement('h2');
@@ -128,7 +123,7 @@ var checkAnswer = function(e) {
         questionEl.appendChild(showResult);
         
         //add 1 to score
-        score++;
+        score += 5;
         
         setTimeout(cleanScreen, 1000);
 
@@ -146,30 +141,95 @@ var checkAnswer = function(e) {
         
         setTimeout(cleanScreen, 1000);
     }
-
+        
     if (currentQuestion >= questions.length - 1) {
-        endgame();
+        setTimeout(finalScoreScreen, 1000);
     }
+    
+    //change which question we are on
+    currentQuestion++;
 }
 
 
 //game ends with answering all questions or timer running out
-var endgame = function() {
-    console.log('blue whales');
-    //show score
+var finalScoreScreen = function() {
 
-        // input initials for scoreboard
+    //create container
+    var scoreInputContainer = document.createElement('section');
+    scoreInputContainer.className = '.main-screen';
+    parent.appendChild(scoreInputContainer);
+
+    //create ALL DONE title
+    var displayTitle = document.createElement('h1');
+    displayTitle.textContent = 'All Done!';
+    scoreInputContainer.appendChild(displayTitle);
+
+    //show final score
+    var displayScore = document.createElement('h2');
+    displayScore.textContent = 'Your final score is ' + score + '!';
+    scoreInputContainer.appendChild(displayScore);
+
+    //create container for input and submit button
+    var initialsContainer = document.createElement('div');
+    scoreInputContainer.appendChild(initialsContainer);
+
+    // create input for initials
+    var initialsInput = document.createElement('input');
+    initialsInput.type = 'text';
+    initialsInput.name = 'initials';
+    initialsInput.placeholder = 'Enter your initials here';
+    initialsContainer.appendChild(initialsInput);
+
+    //create submit button
+    var submitScoreBtn = document.createElement('button');
+    submitScoreBtn.textContent = 'Submit';
+    submitScoreBtn.className = 'btn';
+    submitScoreBtn.id = 'submit-btn';
+    initialsContainer.appendChild(submitScoreBtn);
+
+
 
         //submit score
+        submitScoreBtn.addEventListener('click', submitScore);
+
+    
+}
+
+var submitScore = function() {
+    var submittedInitials = document.querySelector('input[name="initials"]').value;
+
+    if(!submittedInitials) {
+        window.alert('ERROR: You need to input your initials!');
+        return false;
+    }
+
+
+
     saveScore();
 }
 
-var saveScore = function() {
-    console.log('yellow whale');
-    //store the scoreboard in local storage if they play again
-    localStorage.setItem('highscore', score);
+
+
+var createTableRows = function() {
+    //create table rows
+    var createTable = document.createElement('section');
+    createTable.className = 'rows';
+
+    //create container with score data
+    var createScoreContainer = document.createElement('div');
+    createScoreContainer.textContent = '1. ' + initials + ' ' + score;
+    
 }
 
 
+var saveScore = function() {
+    //store the scoreboard in local storage if they play again
+    localStorage.setItem('highscore', );
+    //window.location.href='./scoreboard.html';
+}
+
+var loadScore = function() {
+    window.location.href='./scoreboard.html';
+}
 
 startQuizBtn.addEventListener('click', startQuiz);
