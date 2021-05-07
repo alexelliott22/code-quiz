@@ -3,7 +3,6 @@ currentQuestion = 0;
 timeLeft = 75;
 parent = document.querySelector('.body');
 timer = document.querySelector('.timer');
-goBackBtn = document.querySelector('#go-back');
 scoreboard = document.querySelector('.table');
 
 
@@ -72,6 +71,7 @@ var startTimer = function countdown() {
     }, 1000);
 }
 
+//wipe screen for next set of content
 var cleanScreen = function() {
 
     parent.removeChild(document.querySelector('.main-screen'));
@@ -209,6 +209,7 @@ var finalScoreScreen = function() {
     
 }
 
+// submit score of quiz
 var submitScore = function() {
     var submittedInitials = document.querySelector('input[name="initials"]').value;
 
@@ -223,8 +224,8 @@ var submitScore = function() {
 }
 
 
-
-var createTableRows = function() {
+// create scoreboard
+var createLeaderboard = function() {
     //create table rows
     var createTable = document.createElement('section');
     createTable.className = 'rows';
@@ -239,7 +240,7 @@ var createTableRows = function() {
     
 }
 
-
+// save score to local storage
 var saveScore = function() {
     
     //store the scoreboard in local storage
@@ -249,18 +250,16 @@ var saveScore = function() {
     loadScore();
 }
 
+// load score into scoreboard
 var loadScore = function() {
 
-    console.log('blue');
     window.location.href='./scoreboard.html';
 
-    window.onload(createTableRows);
+    createLeaderboard();
 
     
-    var leaderboard = localStorage.getItem(submittedScore);
-    createScoreContainer.textContent = leaderboard;
-
-
+    var leaderboardData = localStorage.getItem(submittedScore);
+    createScoreContainer.textContent = leaderboardData;
 }
 
 
