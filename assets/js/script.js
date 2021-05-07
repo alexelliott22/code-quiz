@@ -1,45 +1,10 @@
-var score = 0;
-var currentQuestion = 0;
-var timeLeft = 75;
-var startQuizBtn = document.querySelector('#start-quiz');
-var parent = document.querySelector('.body');
-var timer = document.querySelector('.timer');
-var goBackBtn = document.querySelector('#go-back');
-var scoreboard = document.querySelector('.table');
-
-//start timer with start game
-var startTimer = function countdown() {
-
-
-    var timeInterval = setInterval(function() {
-        if(timeLeft >= 1) {
-            timer.textContent = 'Time: ' + timeLeft;
-            timeLeft--;
-        }
-        else {
-            timer.textContent = 0;
-            clearInterval(timeInterval);
-            finalScoreScreen();
-        }
-    }, 1000);
-}
-
-var cleanScreen = function() {
-
-    parent.removeChild(document.querySelector('.main-screen'));
-
-    if (currentQuestion <= questions.length - 1) {
-    createQuestionEl();
-    }
-}
-
-
-// start quiz
-var startQuiz = function() {
-
-    startTimer();
-    cleanScreen();
-}
+score = 0;
+currentQuestion = 0;
+timeLeft = 75;
+parent = document.querySelector('.body');
+timer = document.querySelector('.timer');
+goBackBtn = document.querySelector('#go-back');
+scoreboard = document.querySelector('.table');
 
 
 //create array for holding questions
@@ -86,14 +51,51 @@ var questions = [
     }
 ];
 
+//start timer with start game
+var startTimer = function countdown() {
+
+
+    var timeInterval = setInterval(function() {
+        if(timeLeft < 1) {
+            timer.textContent = 0;
+            clearInterval(timeInterval);
+            finalScoreScreen();
+        }
+        else if (currentQuestion >= questions.length) {
+            timer.textContent = 0;
+            clearInterval(timeInterval);
+        }
+        else {
+            timer.textContent = 'Time: ' + timeLeft;
+            timeLeft--;
+        }
+    }, 1000);
+}
+
+var cleanScreen = function() {
+
+    parent.removeChild(document.querySelector('.main-screen'));
+
+    if (currentQuestion <= questions.length - 1) {
+    createQuestionEl();
+    }
+}
+
+
+// start quiz
+var startQuiz = function() {
+
+    startTimer();
+    cleanScreen();
+}
 
 //create question element
 var createQuestionEl = function() {    
+    console.log(currentQuestion);
 
     //create question element
     questionEl = document.createElement('section');
     questionEl.className = 'main-screen';
-    questionEl.setAttribute('question-id', currentQuestion);
     parent.appendChild(questionEl);
 
     //create question
@@ -101,13 +103,18 @@ var createQuestionEl = function() {
     questionContent.textContent = questions[currentQuestion].question;
     questionEl.appendChild(questionContent);
 
+    //create container for answers
+    var answerContainer = document.createElement('div');
+    answerContainer.className = 'answer-container';
+    questionEl.appendChild(answerContainer);
+
     //create question answers
     for (i = 0; i < questions[currentQuestion].choices.length; i++) {
         var questionAnswer = document.createElement('button');
         questionAnswer.textContent = questions[currentQuestion].choices[i];
         questionAnswer.className = 'btn';
         questionAnswer.id = i
-        questionEl.appendChild(questionAnswer);
+        answerContainer.appendChild(questionAnswer);
         questionAnswer.addEventListener('click', checkAnswer);
     }
     
@@ -127,6 +134,8 @@ var checkAnswer = function(e) {
         //add 1 to score
         score += 5;
         
+        currentQuestion++;
+
         setTimeout(cleanScreen, 1000);
 
     }
@@ -141,20 +150,23 @@ var checkAnswer = function(e) {
         // subtract 10 seccounds from timer
         timeLeft -= 10;
         
+        currentQuestion++;
+
         setTimeout(cleanScreen, 1000);
     }
         
-    if (currentQuestion >= questions.length - 1) {
+    if (currentQuestion >= questions.length) {
         setTimeout(finalScoreScreen, 1000);
     }
     
-    //change which question we are on
-    currentQuestion++;
+    
 }
 
 
 //game ends with answering all questions or timer running out
 var finalScoreScreen = function() {
+
+    //cleanScreen();
 
     //create container
     var scoreInputContainer = document.createElement('section');
@@ -222,6 +234,8 @@ var createTableRows = function() {
     createScoreContainer = document.createElement('div');
     createScoreContainer.textContent = '1. ' + submittedScore;
     createTable.appendChild(createScoreContainer);
+
+    
     
 }
 
@@ -237,9 +251,10 @@ var saveScore = function() {
 
 var loadScore = function() {
 
+    console.log('blue');
     window.location.href='./scoreboard.html';
 
-    createTableRows();
+    window.onload(createTableRows);
 
     
     var leaderboard = localStorage.getItem(submittedScore);
@@ -248,4 +263,7 @@ var loadScore = function() {
 
 }
 
-startQuizBtn.addEventListener('click', startQuiz);
+
+
+document.querySelector('#start-quiz').addEventListener('click', startQuiz);
+document.querySelector('.header-btn').addEventListener('click', loadScore);

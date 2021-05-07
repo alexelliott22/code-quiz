@@ -31,12 +31,13 @@ header {
 }
 
 .btn {
-    margin: auto;
+    margin: 10px auto;
     color: white;
     background-color: blueviolet;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
+    padding: 5px;
 }
 
 .highscore-btns {
@@ -58,3 +59,10 @@ header {
     font-weight: normal;
 }
 
+.answer-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+    align-content: flex-start;
+}
