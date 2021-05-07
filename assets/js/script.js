@@ -28,7 +28,9 @@ var cleanScreen = function() {
 
     parent.removeChild(document.querySelector('.main-screen'));
 
+    if (currentQuestion <= questions.length - 1) {
     createQuestionEl();
+    }
 }
 
 
@@ -203,8 +205,8 @@ var submitScore = function() {
         return false;
     }
 
-
-
+    submittedScore = submittedInitials + ' ' + score;
+    
     saveScore();
 }
 
@@ -214,22 +216,36 @@ var createTableRows = function() {
     //create table rows
     var createTable = document.createElement('section');
     createTable.className = 'rows';
+    scoreboard.appendChild(createTable);
 
     //create container with score data
-    var createScoreContainer = document.createElement('div');
-    createScoreContainer.textContent = '1. ' + initials + ' ' + score;
+    createScoreContainer = document.createElement('div');
+    createScoreContainer.textContent = '1. ' + submittedScore;
+    createTable.appendChild(createScoreContainer);
     
 }
 
 
 var saveScore = function() {
-    //store the scoreboard in local storage if they play again
-    localStorage.setItem('highscore', );
-    //window.location.href='./scoreboard.html';
+    
+    //store the scoreboard in local storage
+    localStorage.setItem('highscore', submittedScore);
+    console.log(localStorage);
+
+    loadScore();
 }
 
 var loadScore = function() {
+
     window.location.href='./scoreboard.html';
+
+    createTableRows();
+
+    
+    var leaderboard = localStorage.getItem(submittedScore);
+    createScoreContainer.textContent = leaderboard;
+
+
 }
 
 startQuizBtn.addEventListener('click', startQuiz);
