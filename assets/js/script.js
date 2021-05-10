@@ -269,9 +269,6 @@ var clearLeaderboard = function() {
     //clear score from local storage
     localStorage.removeItem('highscores');
 
-    
-
-
 }
 
 document.querySelector('#start-quiz').addEventListener('click', startQuiz);
