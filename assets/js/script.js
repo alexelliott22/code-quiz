@@ -5,7 +5,6 @@ parent = document.querySelector('.body');
 timer = document.querySelector('.timer');
 scoreboard = document.querySelector('.table');
 
-
 //create array for holding questions
 var questions = [
     {
@@ -50,6 +49,9 @@ var questions = [
     }
 ];
 
+//create array to hold highscores
+var leaderboard = [];
+
 //start timer with start game
 var startTimer = function countdown() {
 
@@ -91,7 +93,6 @@ var startQuiz = function() {
 
 //create question element
 var createQuestionEl = function() {    
-    console.log(currentQuestion);
 
     //create question element
     questionEl = document.createElement('section');
@@ -218,34 +219,55 @@ var submitScore = function() {
         return false;
     }
 
-    submittedScore = submittedInitials + ' ' + score;
-    
-    saveScore();
+    var currentScore = {
+        name: submittedInitials,
+        score: score
+    };
+
+    saveScoretoLocalStorage(currentScore);
 }
 
+// save score to local storage
+var saveScoretoLocalStorage = function(currentScore) {
+    //pull down localstorage
+    leaderboard = JSON.parse(localStorage.getItem('highscores')) || [];
+
+    //add score to leaderboard 
+    leaderboard.push(currentScore);
+    
+
+    //add leaderboard to local storage
+    localStorage.setItem('highscores', JSON.stringify(leaderboard));
+
+    window.location.href='./scoreboard.html';
+
+    createLeaderboard();
+}
 
 // create scoreboard
-var createLeaderboard = function() {
+var renderLeaderboard = function() {
+    
+    
     //create table rows
     var createTable = document.createElement('section');
     createTable.className = 'rows';
     scoreboard.appendChild(createTable);
 
-    //create container with score data
-    createScoreContainer = document.createElement('div');
-    createScoreContainer.textContent = '1. ' + submittedScore;
-    createTable.appendChild(createScoreContainer);
+    for (i = 0; i < leaderboard.length; i++) {
+        //create container with score data
+        createScoreContainer = document.createElement('div');
+        createScoreContainer.textContent = i + 1 + ' ' + leaderboard[i].name + ' ' + leaderboard[i].score;
+        createTable.appendChild(createScoreContainer);
+    }
 
-    
+    console.log('blue');
     
 }
 
 // save score to local storage
-var saveScore = function() {
+var onSubmit = function() {
     
-    //store the scoreboard in local storage
-    localStorage.setItem('highscore', submittedScore);
-    console.log(localStorage);
+    
 
     loadScore();
 }
@@ -253,16 +275,15 @@ var saveScore = function() {
 // load score into scoreboard
 var loadScore = function() {
 
-    window.location.href='./scoreboard.html';
-
-    createLeaderboard();
-
-    
-    var leaderboardData = localStorage.getItem(submittedScore);
-    createScoreContainer.textContent = leaderboardData;
+    renderLeaderboard();
 }
 
 
+var clearLeaderboard = function() {
+  var clearScores = document.querySelector('.rows');  
+
+  clearScores.remove();
+}
 
 document.querySelector('#start-quiz').addEventListener('click', startQuiz);
 document.querySelector('.header-btn').addEventListener('click', loadScore);
