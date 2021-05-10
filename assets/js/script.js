@@ -49,9 +49,6 @@ var questions = [
     }
 ];
 
-//create array to hold highscores
-var leaderboard = [];
-
 //start timer with start game
 var startTimer = function countdown() {
 
@@ -82,7 +79,6 @@ var cleanScreen = function() {
     createQuestionEl();
     }
 }
-
 
 // start quiz
 var startQuiz = function() {
@@ -230,7 +226,7 @@ var submitScore = function() {
 // save score to local storage
 var saveScoretoLocalStorage = function(currentScore) {
     //pull down localstorage
-    leaderboard = JSON.parse(localStorage.getItem('highscores')) || [];
+    var leaderboard = JSON.parse(localStorage.getItem('highscores')) || [];
 
     //add score to leaderboard 
     leaderboard.push(currentScore);
@@ -241,12 +237,13 @@ var saveScoretoLocalStorage = function(currentScore) {
 
     window.location.href='./scoreboard.html';
 
-    createLeaderboard();
+    renderLeaderboard(leaderboard);
 }
 
 // create scoreboard
-var renderLeaderboard = function() {
+var renderLeaderboard = function(leaderboard) {
     
+    window.location.href='./scoreboard.html';
     
     //create table rows
     var createTable = document.createElement('section');
@@ -264,26 +261,19 @@ var renderLeaderboard = function() {
     
 }
 
-// save score to local storage
-var onSubmit = function() {
-    
-    
-
-    loadScore();
-}
-
-// load score into scoreboard
-var loadScore = function() {
-
-    renderLeaderboard();
-}
-
 
 var clearLeaderboard = function() {
-  var clearScores = document.querySelector('.rows');  
+    //remove rows from html
+    document.querySelector('.rows').remove();
 
-  clearScores.remove();
+    //clear score from local storage
+    localStorage.removeItem('highscores');
+
+    
+
+
 }
 
 document.querySelector('#start-quiz').addEventListener('click', startQuiz);
-document.querySelector('.header-btn').addEventListener('click', loadScore);
+document.querySelector('.header-btn').addEventListener('click', renderLeaderboard);
+document.querySelector('#clear').addEventListener('click', clearLeaderboard);
