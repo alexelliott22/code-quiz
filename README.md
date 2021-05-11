@@ -18,4 +18,4 @@ This website is a Javascript quiz that tests the brain. The user will be prompte
 ![screenshot of quiz](assets/imgs/question.png)
 
 ## Screenshot
-![screenshot of quiz](assets/imgs/scoreboard.png)
+![scoreboard](https://user-images.githubusercontent.com/81639053/117872423-a5096300-b26c-11eb-87f0-bdecfad353b5.PNG)
