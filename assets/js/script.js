@@ -3,7 +3,7 @@ currentQuestion = 0;
 timeLeft = 75;
 parent = document.querySelector('.body');
 timer = document.querySelector('.timer');
-scoreboard = document.querySelector('.table');
+btn = document.querySelector('.btn');
 
 //create array for holding questions
 var questions = [
@@ -74,10 +74,6 @@ var startTimer = function countdown() {
 var cleanScreen = function() {
 
     parent.removeChild(document.querySelector('.main-screen'));
-
-    if (currentQuestion <= questions.length - 1) {
-    createQuestionEl();
-    }
 }
 
 // start quiz
@@ -85,6 +81,7 @@ var startQuiz = function() {
 
     startTimer();
     cleanScreen();
+    createQuestionEl();
 }
 
 //create question element
@@ -117,24 +114,25 @@ var createQuestionEl = function() {
     
 }
 
-
 //check answer submitted
 var checkAnswer = function(e) {
 
     //check if correct button was clicked and add a point
     if( e.target.id == questions[currentQuestion].answer) {
+    
         var showResult = document.createElement('h2');
         showResult.textContent = 'Correct';
         showResult.className = '.show-result';
         questionEl.appendChild(showResult);
         
-        //add 1 to score
-        score += 5;
+        //add score
+        score += Math.floor(Math.random() * 10);
         
+        //increment current question
         currentQuestion++;
 
-        setTimeout(cleanScreen, 1000);
-
+        setTimeout(cleanScreen, 500);
+        setTimeout(createQuestionEl, 600);
     }
 
     //if wrong anser was clicked subtract 10 seconds
@@ -147,9 +145,11 @@ var checkAnswer = function(e) {
         // subtract 10 seccounds from timer
         timeLeft -= 10;
         
+        //increment current question
         currentQuestion++;
 
-        setTimeout(cleanScreen, 1000);
+        setTimeout(cleanScreen, 500);
+        setTimeout(createQuestionEl, 600);
     }
         
     if (currentQuestion >= questions.length) {
@@ -159,11 +159,10 @@ var checkAnswer = function(e) {
     
 }
 
-
 //game ends with answering all questions or timer running out
 var finalScoreScreen = function() {
 
-    //cleanScreen();
+    cleanScreen();
 
     //create container
     var scoreInputContainer = document.createElement('section');
@@ -182,6 +181,7 @@ var finalScoreScreen = function() {
 
     //create container for input and submit button
     var initialsContainer = document.createElement('div');
+    initialsContainer.className = 'initials-container';
     scoreInputContainer.appendChild(initialsContainer);
 
     // create input for initials
@@ -235,42 +235,13 @@ var saveScoretoLocalStorage = function(currentScore) {
     //add leaderboard to local storage
     localStorage.setItem('highscores', JSON.stringify(leaderboard));
 
-    window.location.href='./scoreboard.html';
-
-    renderLeaderboard(leaderboard);
+    changeWindow();
 }
 
-// create scoreboard
-var renderLeaderboard = function(leaderboard) {
-    
-    window.location.href='./scoreboard.html';
-    
-    //create table rows
-    var createTable = document.createElement('section');
-    createTable.className = 'rows';
-    scoreboard.appendChild(createTable);
-
-    for (i = 0; i < leaderboard.length; i++) {
-        //create container with score data
-        createScoreContainer = document.createElement('div');
-        createScoreContainer.textContent = i + 1 + ' ' + leaderboard[i].name + ' ' + leaderboard[i].score;
-        createTable.appendChild(createScoreContainer);
-    }
-
-    console.log('blue');
-    
-}
-
-
-var clearLeaderboard = function() {
-    //remove rows from html
-    document.querySelector('.rows').remove();
-
-    //clear score from local storage
-    localStorage.removeItem('highscores');
-
+//change window
+var changeWindow = function() {
+    window.location.href = './scoreboard.html';
 }
 
 document.querySelector('#start-quiz').addEventListener('click', startQuiz);
-document.querySelector('.header-btn').addEventListener('click', renderLeaderboard);
-document.querySelector('#clear').addEventListener('click', clearLeaderboard);
+document.querySelector('.header-btn').addEventListener('click', changeWindow);

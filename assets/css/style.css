@@ -31,13 +31,27 @@ header {
 }
 
 .btn {
-    margin: 10px auto;
+    margin: 10px 0 10px 0;
     color: white;
     background-color: blueviolet;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     flex-wrap: nowrap;
-    padding: 5px;
+    padding: 8px;
+    border-radius: 25px;
+    width: 15%;
+    align-items: center;
+    border: none;
+    justify-content: center;
+}
+
+#start-quiz {
+    margin: 10px auto;
+    width: auto;
+}
+
+.btn:hover {
+    background-color: rgba(138, 43, 226, .6);
 }
 
 .highscore-btns {
@@ -54,11 +68,6 @@ header {
     padding-bottom: 60px;
 }
 
-.main-screen h2 {
-    margin: auto;
-    font-weight: normal;
-}
-
 .answer-container {
     display: flex;
     flex-direction: column;
@@ -66,3 +75,20 @@ header {
     margin: auto;
     align-content: flex-start;
 }
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.initials-container {
+    text-align: center;
+}
+
+#submit-btn {
+    margin: auto;
+}
+
