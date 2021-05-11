@@ -54,10 +54,22 @@ header {
     background-color: rgba(138, 43, 226, .6);
 }
 
+.header-btn {
+    background-color: rgba(138, 43, 226, 1);
+    color: white;
+    border-radius: 25px;
+    border: none;
+    padding: 8px;
+}
+
+.header-btn:hover {
+    background-color: rgba(138, 43, 226, .6);
+}
+
 .highscore-btns {
     display: flex;
     flex-wrap: wrap;
-    width: 50%;
+    width: 25%;
     justify-content: space-between;
     margin: auto;
 }
@@ -90,5 +102,38 @@ h2 {
 
 #submit-btn {
     margin: auto;
+}
+
+#submit-btn:hover {
+    background-color: rgba(138, 43, 226, .6);
+}
+
+.title h1 {
+    margin: auto;
+}
+
+.table {
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+#go-back {
+    width: 40%;
+}
+
+#clear {
+    width: 40%;
+}
+
+.question {
+    padding-bottom: 20px;
+}
+
+input {
+    padding: 5px;
+    margin: 15px;
+    border-radius: 15px;
+    outline: none;
 }
 

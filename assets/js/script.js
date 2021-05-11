@@ -3,7 +3,6 @@ currentQuestion = 0;
 timeLeft = 75;
 parent = document.querySelector('.body');
 timer = document.querySelector('.timer');
-btn = document.querySelector('.btn');
 
 //create array for holding questions
 var questions = [
@@ -87,6 +86,7 @@ var startQuiz = function() {
 //create question element
 var createQuestionEl = function() {    
 
+
     //create question element
     questionEl = document.createElement('section');
     questionEl.className = 'main-screen';
@@ -95,6 +95,7 @@ var createQuestionEl = function() {
     //create question
     var questionContent = document.createElement('h1');
     questionContent.textContent = questions[currentQuestion].question;
+    questionContent.className = 'question';
     questionEl.appendChild(questionContent);
 
     //create container for answers
@@ -131,11 +132,16 @@ var checkAnswer = function(e) {
         //increment current question
         currentQuestion++;
 
+        if (currentQuestion >= questions.length) {
+            setTimeout(finalScoreScreen, 1000);
+        }
+        else{
         setTimeout(cleanScreen, 500);
         setTimeout(createQuestionEl, 600);
+        }
     }
 
-    //if wrong anser was clicked subtract 10 seconds
+    //if wrong anwser was clicked subtract 10 seconds
     else {
         var showResult = document.createElement('h2');
         showResult.textContent = 'Incorrect';
@@ -148,14 +154,15 @@ var checkAnswer = function(e) {
         //increment current question
         currentQuestion++;
 
-        setTimeout(cleanScreen, 500);
-        setTimeout(createQuestionEl, 600);
+        if (currentQuestion >= questions.length) {
+            setTimeout(finalScoreScreen, 1000);
+        }
+
+        else{
+            setTimeout(cleanScreen, 500);
+            setTimeout(createQuestionEl, 600);
+            }
     }
-        
-    if (currentQuestion >= questions.length) {
-        setTimeout(finalScoreScreen, 1000);
-    }
-    
     
 }
 
@@ -177,6 +184,7 @@ var finalScoreScreen = function() {
     //show final score
     var displayScore = document.createElement('h2');
     displayScore.textContent = 'Your final score is ' + score + '!';
+    displayScore.className = 'display-score';
     scoreInputContainer.appendChild(displayScore);
 
     //create container for input and submit button
