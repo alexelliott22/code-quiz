@@ -12,7 +12,7 @@ This website is a Javascript quiz that tests the brain. The user will be prompte
 ![cover](https://user-images.githubusercontent.com/81639053/117872612-de41d300-b26c-11eb-91de-eb93e3ed3a99.PNG)
 
 ## Screenshot
-![screenshot of quiz](assets/imgs/input-initials.png)
+![input-initials](https://user-images.githubusercontent.com/81639053/117872677-f87bb100-b26c-11eb-8594-656a898306f1.PNG)
 
 ## Screenshot
 ![question](https://user-images.githubusercontent.com/81639053/117872529-c66a4f00-b26c-11eb-9582-abba8589889b.PNG)
